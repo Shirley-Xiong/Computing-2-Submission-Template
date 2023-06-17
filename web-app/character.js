@@ -45,6 +45,11 @@ function Character(name) {
     if (character.health < 0) {
       character.health = 0;
     }
+
+      // update the width of the health bar
+    let healthBarId = this.name === "Player 1" ? "player1Health" : "player2Health";
+     document.getElementById(healthBarId).style.width = this.health + '%';
+    console.log(this.name)
   };
 
   return character;
