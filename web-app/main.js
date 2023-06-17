@@ -16,3 +16,8 @@ document.getElementById('evadeButton').addEventListener('click', () => {
   game.chooseAction('evade');
   document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
 });
+
+document.getElementById('restartButton').addEventListener('click', function() {
+    game.restartGame();
+  });
+  
