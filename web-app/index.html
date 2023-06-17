@@ -3,7 +3,36 @@
 <!doctype html> <!-- This first line tells browsers to expect modern standard html 5 -->
 <html lang="en-gb"> <!-- This is indicates the page is written in British English, useful for accessibility -->
 <meta charset="utf-8"> <!-- This indicates how the file is encoded. utf-8 is standard -->
-<title>Your Web-app Title</title> <!-- All pages need a title, this will be displayed in the browser's title bar -->
+<title>street fighter</title> <!-- All pages need a title, this will be displayed in the browser's title bar -->
 <link rel="stylesheet" href="default.css"> <!-- Import style sheet – default.css -->
 <link rel="icon" href="./assets/favicon.png"> <!-- Import 'Favorites Icon' – favicon.png -->
 <script type="module" src="main.js"></script> <!-- Load the main script. Must be type="module". Have only one of these -->
+
+
+<head>
+</head>
+
+<body>
+  <h1>Street Fighter Game</h1>
+  <div id="gameContainer">
+    <div id="player1" class="player">
+      <h2>Player 1</h2>
+      <div class="healthBar">
+        <div id="player1Health" class="health"></div>
+      </div>
+    </div>
+    <div id="player2" class="player">
+      <h2>Player 2</h2>
+      <div class="healthBar">
+        <div id="player2Health" class="health"></div>
+      </div>
+    </div>
+    <div id="actionContainer">
+      <h2 id="player">Player 1's turn</h2>
+      <button id="attackButton">Attack</button>
+      <button id="defendButton">Defend</button>
+      <button id="evadeButton">Evade</button>
+    </div>
+  </div>
+</body>
+</html>
