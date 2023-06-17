@@ -1,25 +1,18 @@
-import Character from './character.js';
-import Game from './game.js';
+import GameObj from "./game.js";
 
-document.addEventListener("DOMContentLoaded", function() {
-  const player1 = Character.Character("Player 1");
-  const player2 = Character.Character("Player 2");
+var game = GameObj.Game();
 
-  const game = Game.Game(player1, player2);
+document.getElementById('attackButton').addEventListener('click', () => {
+  game.chooseAction('attack');
+  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
+});
 
-  const attackButton = document.getElementById("attackButton");
-  const defendButton = document.getElementById("defendButton");
-  const evadeButton = document.getElementById("evadeButton");
+document.getElementById('defendButton').addEventListener('click', () => {
+  game.chooseAction('defend');
+  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
+});
 
-  attackButton.addEventListener("click", function() {
-    game.chooseAction("attack");
-  });
-
-  defendButton.addEventListener("click", function() {
-    game.chooseAction("defend");
-  });
-
-  evadeButton.addEventListener("click", function() {
-    game.chooseAction("evade");
-  });
+document.getElementById('evadeButton').addEventListener('click', () => {
+  game.chooseAction('evade');
+  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
 });

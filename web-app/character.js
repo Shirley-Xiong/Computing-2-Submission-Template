@@ -1,17 +1,31 @@
-const Character = Object.create(null);
-
-Character.Character = function(name) {
+/**
+ * Constructs a new character.
+ * @memberof Character
+ * @param {string} name The name of the character.
+ */
+function Character(name) {
   var character = {
     name: name,
     health: 100,
     defenseMode: false,
-    action: ""
   };
-  
+
+  /**
+   * Toggles the defense mode of the character.
+   * @memberof Character
+   * @function
+   */
   character.toggleDefenseMode = function() {
     character.defenseMode = !character.defenseMode;
-  }
-  
+  };
+
+  /**
+   * Apply damage to the character. If the character is in defense mode, the damage is halved. 
+   * If the character successfully evades, no damage is taken.
+   * @memberof Character
+   * @function
+   * @param {number} damage The amount of damage to apply.
+   */
   character.receiveDamage = function(damage) {
     // if evasion is successful (25% chance), no damage is taken
     if (Math.random() < 0.25) {
@@ -21,7 +35,7 @@ Character.Character = function(name) {
 
     // if defense mode is active, received damage is halved
     if (character.defenseMode) {
-      console.log(character.name + " is defending!");
+      console.log(character.name + "is defending!");
       character.health -= damage / 2;
     } else {
       character.health -= damage;
@@ -31,13 +45,10 @@ Character.Character = function(name) {
     if (character.health < 0) {
       character.health = 0;
     }
-
-    // update health bar
-    const healthElement = document.getElementById(character.name === "Player 1" ? "player1Health" : "player2Health");
-    healthElement.style.width = character.health + "%";
-  }
+  };
 
   return character;
 }
 
-export default Object.freeze(Character);
+const CharacterObj = { Character: Character };
+export default Object.freeze(CharacterObj);
