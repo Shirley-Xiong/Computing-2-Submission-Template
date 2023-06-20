@@ -151,33 +151,38 @@ aside
     position: relative;
 }
 
-#player1Health
-{
-    width: 100%;
-    height: 20px;
-    background-color: red;
-    position: absolute;
-    left: 0px;
-    top: 40px; 
-}
 
-#player2Health
-{
-    width: 100%;
-    height: 20px;
-    background-color: red;
-    position: absolute;
-    right: 0px;
-    top: 40px; 
-}
-  
-
-.sidebar.healthBar 
+.healthBar 
 {
     position: relative; 
-    width: 600px;  
-    height: 20px; 
+    width: 200%; 
+    height: 20px;
+    top: 50px;
 }
+
+#player1Health 
+{
+    width: 100%; 
+    height: 100%; 
+    background-color: red;
+    position: absolute; 
+    left: 0px;
+    top: 0px;
+    transform-origin: left;
+}
+
+#player2Health 
+{
+    width: 100%; 
+    height: 100%;
+    background-color: red;
+    position: absolute; 
+    right: 250px;
+    top: 0px; 
+    transform-origin: right;
+}
+
+
 
 #scoreboard 
 {
