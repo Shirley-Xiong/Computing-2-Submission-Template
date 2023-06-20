@@ -18,6 +18,8 @@ document.getElementById('evadeButton').addEventListener('click', () => {
 });
 
 document.getElementById('restartButton').addEventListener('click', function() {
-    game.restartGame();
-  });
-  
+  player1Score = 0;
+  player2Score = 0;
+  game.restartGame();
+  document.getElementById('score').innerText = `Score: Player 1 - ${player1Score}, Player 2 - ${player2Score}`;
+});
