@@ -1,76 +1,209 @@
-#gameContainer {
-  width: 300px;
-  height: 150px;
-  border: 1px solid black;
-  padding: 10px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+:root
+{
+    --banner-height: 70px;
+    --banner-font-size: 35pt;
+    --border-width: 2px;
+    --image-border-radius: 7px;
+    --sidebar-width: 250px;
+
+    --banner-background: rgba(168, 72, 96, 0.723);
+    --banner-colour: rgb(196, 28, 28);
+    --border-colour: white;
+    --sidebar-background: rgba(73, 147, 208, 0.799);
+    --sidebar-colour: white;
+    --tile-background: #7e4f46;
+    --main-background: var(--tile-background);
+
+    font-family: "Fira Sans", sans-serif;
+}
+
+header
+{
+    background: var(--banner-background);
+    border-bottom: var(--border-width) solid var(--border-colour);
+    height: var(--banner-height);
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px
+}
+
+#title
+{
+    filter: drop-shadow(4px 4px 2px black);
+    color: var(--banner-colour);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: var(--banner-font-size);
+    margin: 0;
+    position: relative;
+    text-align: center;
+    top: calc(var(--banner-height) / 2 - var(--banner-font-size) / 2 - 10px);
 }
 
 
-body {
-    background: 
-      url(assets/background_layer_3.png) no-repeat center center fixed, 
-      url(assets/background_layer_2.png) no-repeat center center fixed,
-      url(assets/background_layer_1.png) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-  
-#gameContainer {
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-  width: 1000px;
-  height: 100px;
+main {
+  background: 
+    url(assets/background_layer_3.png) no-repeat center center fixed, 
+    url(assets/background_layer_2.png) no-repeat center center fixed,
+    url(assets/background_layer_1.png) no-repeat center center fixed;
+  background-size: cover;
+  height: calc(100% - var(--banner-height));
+  left: var(--sidebar-width);
+  overflow-y: hidden;
+  position: absolute;
+  top: var(--banner-height);
+  width: calc(100% - 2 * var(--sidebar-width));
 }
-  
-.player {
-    border: 1px solid black;
-    padding: 10px;
-    width: 100px;
+
+header a
+{
+    color: var(--sidebar-colour);
+    position: absolute;
+    right: 1em;
+}
+
+aside
+{
+    background: var(--sidebar-background);
+    color: var(--sidebar-colour);
+    height: calc(100% - var(--banner-height));
+    position: absolute;
+    text-align: center;
+    top: var(--banner-height);
+    width: var(--sidebar-width);
+}
+
+.sidebar h2
+{
+    margin-bottom: 0;
+}
+
+.sidebar .player
+{
+    margin-bottom: 5ex;
+}
+
+.sidebar .game_info
+{
+    margin-bottom: 5ex;
+}
+
+#player1_type,
+#player2_type
+{
+    font-weight: bold;
+    font-size:xx-large;
+}
+
+.sidebar .game_info img
+{ 
+    border: var(--border-width) solid var(--border-colour);
+    border-radius: var(--image-border-radius);
+    width: 200px;
     height: 200px;
-    background-size: cover;
-    width: 30%;
-  }
+}
 
- 
-.sprite {
+#player1
+{
+    border-right: var(--border-width) solid var(--border-colour);
+    left: 0;
+}
+
+#player2
+{
+    border-left: var(--border-width) solid var(--border-colour);
+    right: 0;
+}
+
+#player1_name,
+#player2_name 
+{
+    position: relative;
+    top: 7px;
+    box-sizing: border-box;
+    background: inherit;
+    border: none;
+    color: inherit;
+    font: inherit;
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: inherit;
+    width: 100%;
+}
+
+
+.sprite 
+{
     width: 100px; 
     height: 100px; 
     background: url('./assets/normal1.png');
     animation: play 1s steps(10) infinite;
     transform: scale(5);
-  }
+}
   
-  @keyframes play {
-    100% { background-position: -1000px; } 
-  }
+@keyframes play 
+{
+ 100% { background-position: -1000px; } 
+}
   
+.player 
+{
+    position: relative;
+}
 
-  .health {
+#player1Health
+{
     width: 100%;
     height: 20px;
     background-color: red;
-  }
-  
-  
-  .healthBar {
-    width: 200px;  
+    position: absolute;
+    left: 0px;
+    top: 40px; 
+}
+
+#player2Health
+{
+    width: 100%;
     height: 20px;
-  }
+    background-color: red;
+    position: absolute;
+    right: 0px;
+    top: 40px; 
+}
   
-  
-  
-  #actionContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
+
+.sidebar.healthBar 
+{
+    position: relative; 
+    width: 600px;  
+    height: 20px; 
+}
+
+#scoreboard 
+{
+    position: absolute;
+    bottom: 30px;
+    left: 47%;
+}
+
+#score 
+{
+    color: rgb(255, 255, 255);
+    font-size: 30pt;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#restartButton 
+{
+    position: absolute;
+    bottom: 0;
+    left:45%;
+    width: 150px;
+    height: 60px;
+    border: 4px solid;
+    border-radius: 15px;
+    font-size: 16pt;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgba(80, 172, 214, 0.767);
+    color: azure;
+}

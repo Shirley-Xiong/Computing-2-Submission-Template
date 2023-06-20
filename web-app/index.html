@@ -9,33 +9,68 @@
 <script type="module" src="main.js"></script> <!-- Load the main script. Must be type="module". Have only one of these -->
 
 
-<head>
-</head>
+<header>
+    <h1 id="title">Street Fighter Game</h1>
+    <a href="/docs/">API Documentation</a>
+</header>
+	
+<main tabindex="-1">
+  <div id="game_board"></div>
+</main>
+ 
+<aside id="player1" class="sidebar" aria-label="Player1 Info">
+    <div class="player">
+        <input id="player1_name" aria-label="player1 name" value="Player 1">
+		<div class="healthBar">
+          <div id="player1Health" class="health"></div>
+        </div>
+        <div><strong>Elo</strong> <span id="player1_elo">100</span></div>	
+    </div>
+	
+    <div class="game_info">
+        <img id="plyaer1_type_image" src="./assets/player1.png" alt="Huntress">
+        <div id="player1_type">Huntress</div>
+		<div id="player1_ready">Your turn!</div>
+    </div>
+	
+    <div>
+         <strong>Longest Streak</strong>
+         <span id="player1_longest_streak">4</span>
+    </div>
+</aside>
 
-<body>
-  <h1>Street Fighter Game</h1>
-  <div id="gameContainer">
-    <div id="player1" class="player">
-      <h2>Player 1</h2>
-      <div class="healthBar">
-        <div id="player1Health" class="health"></div>
-      </div>
+
+<aside id="player2" class="sidebar" aria-label="Player2 Info">
+    <div class="player">
+        <input id="player2_name" aria-label="player2 name" value="Player 2">
+		<div class="healthBar">
+          <div id="player2Health" class="health"></div>
     </div>
-    <div id="player2" class="player">
-      <h2>Player 2</h2>
-      <div class="healthBar">
-        <div id="player2Health" class="health"></div>
-      </div>
+        <div><strong>Elo</strong> <span id="player2_elo">100</span></div>	
     </div>
-    <div id="actionContainer">
-      <h2 id="player">Player 1's turn</h2>
+	
+    <div class="game_info">
+        <img id="plyaer2_type_image" src="./assets/player2.png" alt="Martial Hero">
+        <div id="player2_type">Martial Hero</div>
+		<div id="player2_ready">Wait your turn...</div>
+    </div>
+	
+    <div>
+         <strong>Longest Streak</strong>
+         <span id="player2_longest_streak">4</span>
+    </div>
+</aside>
+   
+<div id="actionContainer">
       <button id="attackButton">Attack</button>
       <button id="defendButton">Defend</button>
       <button id="evadeButton">Evade</button>
-    <div id="scoreboard">
-        <h2 id="score">Score: Player 1 - 0, Player 2 - 0</h2>
-        <button id="restartButton">Restart Game</button>
-    </div>
-  </div>
-</body>
+</div>
+
+<div id="scoreboard">
+    <h2 id="score"> 0  :  0</h2>
+</div>
+	
+<button id="restartButton">Restart Game</button>
+
 </html>
