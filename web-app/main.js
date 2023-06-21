@@ -9,11 +9,28 @@ let player2HealthBar = document.getElementById("player2Health");
 let players = gameInstance.getPlayers();
 let player1 = players.player1;
 let player2 = players.player2;
+let score;
 
 function updateHealthBars(player1Health, player2Health) {
   player1HealthBar.style.width = player1Health + "%";
   player2HealthBar.style.width = player2Health + "%";
 }
+
+function updateScoresUI(score) {
+  document.getElementById("score").innerText =
+    `${score[player1.getName()].player_1_wins}  : ${score[player2.getName()].player_2_wins}`;
+
+  document.getElementById("player1_longest_streak").textContent =
+     score[player1.getName()].longest_streak;
+  document.getElementById("player1_current_streak").textContent =
+     score[player1.getName()].current_streak;
+
+  document.getElementById("player2_longest_streak").textContent =
+     score[player2.getName()].longest_streak;
+  document.getElementById("player2_current_streak").textContent =
+     score[player2.getName()].current_streak;
+}
+
 
 function handleAction(action) {
   const healths = gameInstance.chooseAction(action);
@@ -28,7 +45,6 @@ function handleAction(action) {
   }
 
   // If the game has ended, record the result
-  let score;
   if (Game.is_ended(players.player1, players.player2)) {
     let winner = Game.getWinner(players.player1, players.player2);
     score = Stats.record_game(player1.getName(), player2.getName(), winner);
@@ -37,6 +53,8 @@ function handleAction(action) {
     player1 = players.player1;
     player2 = players.player2;
 
+    // Reset score
+    updateScoresUI(score);
     // Reset action info
     document.getElementById("player1_info").textContent =
     "Player1 is ready";
@@ -140,8 +158,9 @@ document.getElementById("restartButton").addEventListener('click', function() {
   player1 = players.player1;
   player2 = players.player2;
   Stats.reset(player1.getName(), player2.getName());
-  document.getElementById("score").textContent = "0 : 0";
 
-  // Update health bars immediately after the game is reset
+  score = Stats.get_statistics([player1.getName(), player2.getName()]);
+  updateScoresUI(score);
+
   updateHealthBars(player1.getHealth(), player2.getHealth());
 });
