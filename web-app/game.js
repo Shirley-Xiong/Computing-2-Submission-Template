@@ -64,6 +64,7 @@ Game.evade = function() {
 Game.createCharacter = function(name) {
   let health = 100;
   let defenseMode = false;
+  let action = "";
 
  // Toggle the defense mode of the player
   const toggleDefenseMode = function() {
@@ -88,7 +89,8 @@ Game.createCharacter = function(name) {
     toggleDefenseMode,
     receiveDamage,
     getHealth: () => health,
-    getName: () => name
+    getName: () => name,
+    action,
   };
 };
 
@@ -114,9 +116,11 @@ Game.createGame = function () {
   const chooseAction = function(action) {
     if (currentPlayer === player1) {
       action1 = action;
+      currentPlayer.action = action;
       currentPlayer = player2;
     } else {
       action2 = action;
+      currentPlayer.action = action;
       currentPlayer = player1;
     }
     // Resolve the round when both players have chosen an action
@@ -128,19 +132,29 @@ Game.createGame = function () {
  //Determines and executes actions chosen by players.
   const handleActions= function() {
     if (action1 === 'defend') {
-      Game.defend(player1);
-    } else if (action1 === 'attack') {
-      Game.attack(player2);
-    } else {
-      Game.evade(player1);
-    }
+        Game.defend(player1);
+      } else if (action1 === 'attack') {
+        if (action2 === 'evade' && Game.evade()) {
+          // Player 2 successfully evaded the attack, so no damage to player2
+        } else {
+          // Player 2 did not evade or evade was unsuccessful
+          Game.attack(player2);
+        }
+      } else if (action1 === 'evade' && Game.evade()) {
+        // Player 1 successfully evaded an attack, so no damage to player1
+      }
 
-    if (action2 === 'defend') {
-      Game.defend(player2);
-    } else if (action2 === 'attack') {
-      Game.attack(player1);
-    } else {
-      Game.evade(player2);
+      if (action2 === 'defend') {
+        Game.defend(player2);
+      } else if (action2 === 'attack') {
+        if (action1 === 'evade' && Game.evade()) {
+          // Player 1 successfully evaded the attack, so no damage to player1
+        } else {
+          // Player 1 did not evade or evade was unsuccessful
+          Game.attack(player1);
+        }
+      } else if (action2 === 'evade' && Game.evade()) {
+        // Player 2 successfully evaded an attack, so no damage to player2
     }
   };
 

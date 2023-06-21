@@ -7,10 +7,8 @@ let player1HealthBar = document.getElementById('player1Health');
 let player2HealthBar = document.getElementById('player2Health');
 
 function handleAction(action) {
-  // Perform the chosen action
   const healths = gameInstance.chooseAction(action);
 
-  // Update the health bars only if healths is defined
   if (healths) {
     player1HealthBar.style.width = healths.player1Health + '%';
     player2HealthBar.style.width = healths.player2Health + '%';
@@ -23,6 +21,36 @@ function handleAction(action) {
     console.log(players.player2.getName() + ' has won the game!');
   } else if (Game.isWinningForPlayer(players.player2)) {
     console.log(players.player1.getName() + ' has won the game!');
+  }
+
+  // Update the HP text
+  document.getElementById("player1_HP").textContent =
+  players.player1.getHealth();
+
+  document.getElementById("player2_HP").textContent =
+  players.player2.getHealth();
+
+  // Update action info
+  if (players.player1.action === "attack") {
+    document.getElementById("player1_info").textContent =
+    "Player1 is attacking";
+  } else if (players.player1.action === "defend") {
+    document.getElementById("player1_info").textContent =
+    "Player1 is defending";
+  } else if (players.player1.action === "evade") {
+    document.getElementById("player1_info").textContent =
+    "Player1 is evading";
+  }
+
+  if (players.player2.action === "attack") {
+    document.getElementById("player2_info").textContent =
+    "Player2 is attacking";
+  } else if (players.player2.action === "defend") {
+    document.getElementById("player2_info").textContent =
+    "Player2 is defending";
+  } else if (players.player2.action === "evade") {
+    document.getElementById("player2_info").textContent =
+    "Player2 is evading";
   }
 }
 
