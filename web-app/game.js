@@ -126,7 +126,7 @@ Game.createGame = function () {
   };
 
  //Determines and executes actions chosen by players.
-  const handleActions = function() {
+  const handleActions= function() {
     if (action1 === 'defend') {
       Game.defend(player1);
     } else if (action1 === 'attack') {
@@ -155,7 +155,7 @@ Game.createGame = function () {
   //Resolves the round, handles actions, resets actions and defense modes,
   //and returns the current health of both players.
   const resolveRound = function() {
-    handleActions();
+    Game.handleActions();
     resetActionsAndDefenseModes();
 
     return {
@@ -165,10 +165,12 @@ Game.createGame = function () {
     };
 
   return {
-    chooseAction,
+    chooseAction: chooseAction,
+    handleActions: handleActions,
     getPlayers: () => ({ player1, player2 })
   };
 };
+Game.createGame();
 
 /**
  * Returns true if the player has lost the game.
@@ -200,6 +202,6 @@ Game.is_ended = function (player1, player2) {
 
 Game.resetHealth = function () {
 
-}
+};
 
 export default Object.freeze(Game);

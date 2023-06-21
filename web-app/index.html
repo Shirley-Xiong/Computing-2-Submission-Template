@@ -18,8 +18,6 @@
   <div id="game_board"></div>
 </main>
  
-
-
 <aside id="player1" class="sidebar" aria-label="Player1 Info">
     <div class="player">
         <input id="player1_name" aria-label="player1 name" value="Player 1">
@@ -35,14 +33,20 @@
 		<div id="player1_ready">Your turn!</div>
     </div>
 	
+    <div id="player1_action_container" class="action_container">
+        <button id="player1_attackButton" class="attack">Attack</button>
+        <button id="player1_defendButton" class="defend">Defend</button>
+        <button id="player1_evadeButton" class="evade">Evade</button>
+    </div>
+
     <div>
          <strong>Longest Streak</strong>
          <span id="player1_longest_streak">4</span>
     </div>
+
 </aside>
 
 <h2 id="player1_info" class="text_info">Player1 attack</h2>
-
 
 <aside id="player2" class="sidebar" aria-label="Player2 Info">
     <div class="player">
@@ -58,7 +62,13 @@
         <div id="player2_type">Martial Hero</div>
 		<div id="player2_ready">Wait your turn...</div>
     </div>
-	
+
+    <div id="player2_action_container" class="action_container">
+        <button id="player2_attackButton" class="attack">Attack</button>
+        <button id="player2_defendButton" class="defend">Defend</button>
+        <button id="player2_evadeButton" class="evade">Evade</button>
+    </div>
+
     <div>
          <strong>Longest Streak</strong>
          <span id="player2_longest_streak">4</span>
@@ -66,12 +76,6 @@
 </aside>
 
 <h2 id="player2_info" class="text_info">Player2 attack</h2>
-
-<div id="actionContainer">
-      <button id="attackButton">Attack</button>
-      <button id="defendButton">Defend</button>
-      <button id="evadeButton">Evade</button>
-</div>
 
 <div id="scoreboard">
     <h2 id="score"> 0  :  0</h2>

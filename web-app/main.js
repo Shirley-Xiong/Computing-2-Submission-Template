@@ -1,25 +1,70 @@
-import GameObj from "./game.js";
+import Game from "./game.js";
 
-var game = GameObj.Game();
+// Initialize a new game and get references to the player objects
+let gameInstance = Game.createGame();
 
-document.getElementById('attackButton').addEventListener('click', () => {
-  game.chooseAction('attack');
-  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
+let player1HealthBar = document.getElementById('player1Health');
+let player2HealthBar = document.getElementById('player2Health');
+
+// The handleAction function now calls the chooseAction method of the gameInstance, not the Game object
+function handleAction(action) {
+  // Perform the chosen action
+  let healths = gameInstance.chooseAction(action);
+
+  // Update the health bars
+  player1HealthBar.style.width = healths.player1Health + '%';
+  player2HealthBar.style.width = healths.player2Health + '%';
+
+  // Update the game status
+  let players = gameInstance.getPlayers();
+
+  if (Game.isWinningForPlayer(players.player1)) {
+    console.log(players.player2.getName() + ' has won the game!');
+  } else if (Game.isWinningForPlayer(players.player2)) {
+    console.log(players.player1.getName() + ' has won the game!');
+  }
+}
+
+document.getElementById("player1_attackButton").addEventListener("click",
+function() {
+  handleAction("attack");
 });
 
-document.getElementById('defendButton').addEventListener('click', () => {
-  game.chooseAction('defend');
-  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
+document.getElementById("player1_defendButton").addEventListener("click",
+function() {
+  handleAction("defend");
 });
 
-document.getElementById('evadeButton').addEventListener('click', () => {
-  game.chooseAction('evade');
-  document.getElementById('player').textContent = game.currentPlayer.name + "'s turn";
+document.getElementById("player1_evadeButton").addEventListener("click",
+function() {
+  handleAction("evade");
 });
 
+document.getElementById("player2_attackButton").addEventListener("click",
+function() {
+  handleAction("attack");
+});
+
+document.getElementById("player2_defendButton").addEventListener("click",
+function() {
+  handleAction("defend");
+});
+
+document.getElementById("player2_evadeButton").addEventListener("click",
+function() {
+  handleAction("evade");
+});
+
+// Attach event listeners for the restart button
 document.getElementById('restartButton').addEventListener('click', function() {
-  player1Score = 0;
-  player2Score = 0;
-  game.restartGame();
-  document.getElementById('score').innerText = `Score: Player 1 - ${player1Score}, Player 2 - ${player2Score}`;
+  // Restart the game and get references to the new player objects
+  gameInstance = Game.createGame();
+  let players = gameInstance.getPlayers();
+
+  // Reset the health bars
+  player1HealthBar.style.width = players.player1.getHealth() + '%';
+  player2HealthBar.style.width = players.player2.getHealth() + '%';
 });
+
+
+
