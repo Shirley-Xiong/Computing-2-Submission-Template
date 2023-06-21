@@ -1,123 +1,205 @@
-import CharacterObj from "./character.js";
+/**
+ * game.js is a module to model and play "Street Fighter" and related games.
+ * @namespace Game
+ * @author Shirley Xiong
+ * @version 2023
+ */
+const Game = Object.create(null);
 
-let player1Score = 0; // Player 1's score
-let player2Score = 0; // Player 2's score
+/**
+ * Return damage on a player.
+ * The amount of damage is a random value between 30 and 50.
+ * @memberof Game
+ * @function
+ * @param {Object} player - The player object to receive the damage.
+ * @returns {void} This function does not return a value.
+ */
+Game.attack = function(player) {
+  // calculate damage between 30 and 50
+  const damage = Math.floor(Math.random() * 21) + 30;
+  player.receiveDamage(damage);
+};
 
-  /**
-   * Choose an action to take: 'attack', 'defend', or 'evade'.
-   * @memberof Game
-   * @function
-   * @param {string} action The action to take.
-   */
-
-function handleDefendAction(player) {
+/**
+ * Toggles the defense mode of a player.
+ * When in defense mode, a player receives only half the normal damage.
+ * @memberof Game
+ * @function
+ * @param {Object} player - The player object to toggle defense mode.
+ * @returns {void} This function does not return a value.
+ */
+Game.defend = function(player) {
   player.toggleDefenseMode();
-}
+};
 
-function handleAttackAction(attacker, defender) {
-  var damage = Math.floor(Math.random() * 21) + 30;
-  defender.receiveDamage(damage);
-}
-
-function handleScore(game, winnerPlayer, loserPlayer) {
-  winnerPlayer.score += 1;
-  console.log(winnerPlayer.name + " wins the round!");
-  game.restartGame();
-}
-
-function resolveRound(game) {
-  if (game.action1 === 'defend') {
-    handleDefendAction(game.player1);
+/**
+ * Return whether the evade is successful.
+ * Makes a player evade an attack.
+ * There's a 25% chance of a successful evasion.
+ * @memberof Game
+ * @function
+ * @returns {boolean} Returns true if evasion was successful, false otherwise.
+ */
+Game.evade = function() {
+  if (Math.random() < 0.25) {
+    return true;
   }
-  if (game.action2 === 'defend') {
-    handleDefendAction(game.player2);
-  }
-  if (game.action1 === 'attack') {
-    handleAttackAction(game.player1, game.player2);
-  }
-  if (game.action2 === 'attack') {
-    handleAttackAction(game.player2, game.player1);
-  }
+  return false;
+};
 
-  // reset actions and defense modes for the next round
-  game.action1 = null;
-  game.action2 = null;
-  game.player1.defenseMode = false;
-  game.player2.defenseMode = false;
+/**
+ * Creates a new player with a given name.
+ * Players start with 100 health and not in defense mode.
+ * @memberof Game
+ * @function
+ * @param {string} name - The name of the player.
+ * @returns {Object} The newly created player object.
+ * The player object includes:
+ *  - `toggleDefenseMode` (function): Toggles the defense mode of the player.
+ *  - `receiveDamage` (function): Inflicts damage to the player.
+ *     The damage received is halved if the player is in defense mode.
+ *  - `getHealth` (function): Returns the current health of the player.
+ *  - `getName` (function): Returns the name of the player.
+ */
+Game.createCharacter = function(name) {
+  let health = 100;
+  let defenseMode = false;
 
-  // log the remaining health of both players
-  console.log("Player 1: " + game.player1.health + " health remaining.");
-  console.log("Player 2: " + game.player2.health + " health remaining.");
-
-  // Check if a player's health has reached zero and increment score
-  if (game.player1.health <= 0) {
-    handleScore(game, game.player2, game.player1);
-  }
-  if (game.player2.health <= 0) {
-    handleScore(game, game.player1, game.player2);
-  }
-}
-
-
-
-function handleChooseAction(game, action) {
-  if (game.currentPlayer === game.player1) {
-    game.action1 = action;
-    game.currentPlayer = game.player2;
-  } else {
-    game.action2 = action;
-    game.currentPlayer = game.player1;
-  }
-
-  // if both players have chosen an action, resolve the round
-  if (game.action1 !== null && game.action2 !== null) {
-    resolveRound(game);
-  }
-}
-
-
-function handleRestartGame(game) {
-  game.player1 = CharacterObj.Character("Player 1");
-  game.player2 = CharacterObj.Character("Player 2");
-  game.currentPlayer = game.player1;
-  game.action1 = null;
-  game.action2 = null;
-
-  // update UI
-  document.getElementById('player1Health').style.width = game.player1.health + "%";
-  document.getElementById('player2Health').style.width = game.player2.health + "%";
-}
-
-
-
-function Game() {
-  let game = {};
-  game.player1 = CharacterObj.Character("Player 1");
-  game.player2 = CharacterObj.Character("Player 2");
-  game.currentPlayer = game.player1;
-  game.action1 = null; // action chosen by player 1
-  game.action2 = null; // action chosen by player 2
-  game.player1Score = 0; // initialize score for player 1
-  game.player2Score = 0; // initialize score for player 2
-
-
-  game.chooseAction = function(action) {
-    handleChooseAction(this, action);
+ // Toggle the defense mode of the player
+  const toggleDefenseMode = function() {
+    defenseMode = !defenseMode;
   };
 
-  game.restartGame = function() {
-    handleRestartGame(this);
+ // Inflicts damage to the player.
+ //The damage received is halved if the player is in defense mode.
+  const receiveDamage = function(damage) {
+    if (defenseMode) {
+      health -= damage / 2;
+    } else {
+      health -= damage;
+    }
+    // Ensure the player's health does not fall below 0
+    if (health < 0) {
+      health = 0;
+    }
   };
 
-  game.resolveRound = function() {
-    resolveRound(this);
+  return {
+    toggleDefenseMode,
+    receiveDamage,
+    getHealth: () => health,
+    getName: () => name
+  };
+};
+
+/**
+ * Creates a new game with two players named "Player 1" and "Player 2".
+ * Players can choose actions and rounds are resolved based on these actions.
+ * @memberof Game
+ * @function
+ * @returns {Object} The newly created game object. The game object includes:
+ *  - `chooseAction` (function): Assigns the chosen action to the current player
+ *     and switches the turn to the other player.
+ *     Resolves the round if both players have chosen an action.
+ *  - `getPlayers` (function): Returns the current game state including
+ *     both player objects.
+ */
+Game.createGame = function () {
+  let player1 = Game.createCharacter("Player 1");
+  let player2 = Game.createCharacter("Player 2");
+  let currentPlayer = player1;
+  let action1 = null;
+  let action2 = null;
+
+  const chooseAction = function(action) {
+    if (currentPlayer === player1) {
+      action1 = action;
+      currentPlayer = player2;
+    } else {
+      action2 = action;
+      currentPlayer = player1;
+    }
+    // Resolve the round when both players have chosen an action
+    if (action1 !== null && action2 !== null) {
+      return resolveRound();
+    }
   };
 
+ //Determines and executes actions chosen by players.
+  const handleActions = function() {
+    if (action1 === 'defend') {
+      Game.defend(player1);
+    } else if (action1 === 'attack') {
+      Game.attack(player2);
+    } else {
+      Game.evade(player1);
+    }
 
-  return game;
+    if (action2 === 'defend') {
+      Game.defend(player2);
+    } else if (action2 === 'attack') {
+      Game.attack(player1);
+    } else {
+      Game.evade(player2);
+    }
+  };
+
+ // Resets actions and defense modes after each round.
+  const resetActionsAndDefenseModes = function() {
+    action1 = null;
+    action2 = null;
+    player1.toggleDefenseMode();
+    player2.toggleDefenseMode();
+  };
+
+  //Resolves the round, handles actions, resets actions and defense modes,
+  //and returns the current health of both players.
+  const resolveRound = function() {
+    handleActions();
+    resetActionsAndDefenseModes();
+
+    return {
+      player1Health: player1.getHealth(),
+      player2Health: player2.getHealth()
+    };
+    };
+
+  return {
+    chooseAction,
+    getPlayers: () => ({ player1, player2 })
+  };
+};
+
+/**
+ * Returns true if the player has lost the game.
+ * A player loses the game if their health is zero or less.
+ * @memberof Game
+ * @function
+ * @param {Object} player The player object.
+ * @returns {boolean} Whether the player has lost.
+ */
+Game.isWinningForPlayer = function (player) {
+    return player.getHealth() <= 0;
+};
+
+/**
+ * Returns true if the game has ended.
+ * A game is considered ended if either player has lost.
+ * @memberof Game
+ * @function
+ * @param {Object} player1 The first player object.
+ * @param {Object} player2 The second player object.
+ * @returns {boolean} Whether the game has ended.
+ */
+Game.is_ended = function (player1, player2) {
+    return (
+        Game.isWinningForPlayer(player1) ||
+        Game.isWinningForPlayer(player2)
+    );
+};
+
+Game.resetHealth = function () {
+
 }
 
-
-
-const GameObj = { Game: Game, player1Score: 0, player2Score: 0 };
-export default Object.freeze(GameObj);
+export default Object.freeze(Game);

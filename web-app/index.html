@@ -18,13 +18,15 @@
   <div id="game_board"></div>
 </main>
  
+
+
 <aside id="player1" class="sidebar" aria-label="Player1 Info">
     <div class="player">
         <input id="player1_name" aria-label="player1 name" value="Player 1">
-		<div class="healthBar">
-          <div id="player1Health" class="health"></div>
-        </div>
-        <div><strong>Elo</strong> <span id="player1_elo">100</span></div>	
+        <div class="healthBar">
+  <div id="player1Health" class="health"></div>
+</div>
+        <div><strong>HP</strong> <span id="player1_HP">100</span></div>	
     </div>
 	
     <div class="game_info">
@@ -39,14 +41,16 @@
     </div>
 </aside>
 
+<h2 id="player1_info" class="text_info">Player1 attack</h2>
+
 
 <aside id="player2" class="sidebar" aria-label="Player2 Info">
     <div class="player">
         <input id="player2_name" aria-label="player2 name" value="Player 2">
-		<div class="healthBar">
+        <div class="healthBar">
           <div id="player2Health" class="health"></div>
-    </div>
-        <div><strong>Elo</strong> <span id="player2_elo">100</span></div>	
+        </div>
+        <div><strong>HP</strong> <span id="player2_HP">100</span></div>	
     </div>
 	
     <div class="game_info">
@@ -60,7 +64,9 @@
          <span id="player2_longest_streak">4</span>
     </div>
 </aside>
-   
+
+<h2 id="player2_info" class="text_info">Player2 attack</h2>
+
 <div id="actionContainer">
       <button id="attackButton">Attack</button>
       <button id="defendButton">Defend</button>
