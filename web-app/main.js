@@ -6,14 +6,15 @@ let gameInstance = Game.createGame();
 let player1HealthBar = document.getElementById('player1Health');
 let player2HealthBar = document.getElementById('player2Health');
 
-// The handleAction function now calls the chooseAction method of the gameInstance, not the Game object
 function handleAction(action) {
   // Perform the chosen action
-  let healths = gameInstance.chooseAction(action);
+  const healths = gameInstance.chooseAction(action);
 
-  // Update the health bars
-  player1HealthBar.style.width = healths.player1Health + '%';
-  player2HealthBar.style.width = healths.player2Health + '%';
+  // Update the health bars only if healths is defined
+  if (healths) {
+    player1HealthBar.style.width = healths.player1Health + '%';
+    player2HealthBar.style.width = healths.player2Health + '%';
+  }
 
   // Update the game status
   let players = gameInstance.getPlayers();
@@ -24,6 +25,7 @@ function handleAction(action) {
     console.log(players.player1.getName() + ' has won the game!');
   }
 }
+
 
 document.getElementById("player1_attackButton").addEventListener("click",
 function() {

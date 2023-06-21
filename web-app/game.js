@@ -155,7 +155,7 @@ Game.createGame = function () {
   //Resolves the round, handles actions, resets actions and defense modes,
   //and returns the current health of both players.
   const resolveRound = function() {
-    Game.handleActions();
+    handleActions();
     resetActionsAndDefenseModes();
 
     return {
