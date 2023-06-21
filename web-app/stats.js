@@ -79,4 +79,12 @@ Stats.record_game = function (player_1, player_2, winner) {
   return Stats.get_statistics([player_1, player_2]);
 };
 
+Stats.reset = function (player1, player2) {
+  player_statistics[player1] = new_player();
+  player_statistics[player2] = new_player();
+};
+
+
+
+
 export default Object.freeze(Stats);

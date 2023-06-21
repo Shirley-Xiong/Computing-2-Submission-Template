@@ -106,6 +106,7 @@ Game.createCharacter = function(name) {
  *  - `getPlayers` (function): Returns the current game state including
  *     both player objects.
  */
+
 Game.createGame = function () {
   let player1 = Game.createCharacter("Player 1");
   let player2 = Game.createCharacter("Player 2");
@@ -182,14 +183,23 @@ Game.createGame = function () {
     };
     };
 
+  const reset = function() {
+    player1 = Game.createCharacter("Player 1");
+    player2 = Game.createCharacter("Player 2");
+    currentPlayer = player1;
+    action1 = null;
+    action2 = null;
+  };
+
   return {
     chooseAction: chooseAction,
     handleActions: handleActions,
     getPlayers: () => ({ player1, player2 }),
-    getCurrentPlayer: getCurrentPlayer
+    getCurrentPlayer: getCurrentPlayer,
+    reset: reset
   };
 };
-Game.createGame();
+
 
 /**
  * Returns true if the player has lost the game.
@@ -228,8 +238,5 @@ Game.is_ended = function (player1, player2) {
     );
 };
 
-Game.resetHealth = function () {
-
-};
 
 export default Object.freeze(Game);

@@ -6,23 +6,61 @@ let gameInstance = Game.createGame();
 
 let player1HealthBar = document.getElementById("player1Health");
 let player2HealthBar = document.getElementById("player2Health");
+let players = gameInstance.getPlayers();
+let player1 = players.player1;
+let player2 = players.player2;
+
+function updateHealthBars(player1Health, player2Health) {
+  player1HealthBar.style.width = player1Health + "%";
+  player2HealthBar.style.width = player2Health + "%";
+}
 
 function handleAction(action) {
   const healths = gameInstance.chooseAction(action);
+  // Get the current player instances
+  players = gameInstance.getPlayers();
+  player1 = players.player1;
+  player2 = players.player2;
 
+  // Update health bars if both players have chosen an action
   if (healths) {
-    player1HealthBar.style.width = healths.player1Health + "%";
-    player2HealthBar.style.width = healths.player2Health + "%";
+    updateHealthBars(healths.player1Health, healths.player2Health);
   }
-
-  // Update the game status
-  let players = gameInstance.getPlayers();
 
   // If the game has ended, record the result
   let score;
   if (Game.is_ended(players.player1, players.player2)) {
     let winner = Game.getWinner(players.player1, players.player2);
-    score = Stats.record_game("player1", "player2", winner);
+    score = Stats.record_game(player1.getName(), player2.getName(), winner);
+    gameInstance.reset();
+    players = gameInstance.getPlayers();
+    player1 = players.player1;
+    player2 = players.player2;
+
+    // Reset action info
+    document.getElementById("player1_info").textContent =
+    "Player1 is ready";
+    document.getElementById("player2_info").textContent =
+    "Player2 is ready";
+
+    // Reset health bars
+    player1HealthBar.style.width = "100%";
+    player2HealthBar.style.width = "100%";
+
+    // Update scores
+    document.getElementById("score").innerText =
+    `${score[player1.getName()].player_1_wins}  :
+      ${score[player2.getName()].player_2_wins}`;
+
+    document.getElementById("player1_longest_streak").textContent =
+     score[player1.getName()].longest_streak;
+    document.getElementById("player1_current_streak").textContent =
+     score[player1.getName()].current_streak;
+
+    document.getElementById("player2_longest_streak").textContent =
+     score[player2.getName()].longest_streak;
+    document.getElementById("player2_current_streak").textContent =
+     score[player2.getName()].current_streak;
   }
 
   // Update the HP text
@@ -96,16 +134,14 @@ function() {
   handleAction("evade");
 });
 
-// Attach event listeners for the restart button
-document.getElementById('restartButton').addEventListener('click', function() {
-  // Restart the game and get references to the new player objects
-  gameInstance = Game.createGame();
-  let players = gameInstance.getPlayers();
+document.getElementById("restartButton").addEventListener('click', function() {
+  gameInstance.reset();
+  players = gameInstance.getPlayers();
+  player1 = players.player1;
+  player2 = players.player2;
+  Stats.reset(player1.getName(), player2.getName());
+  document.getElementById("score").textContent = "0 : 0";
 
-  // Reset the health bars
-  player1HealthBar.style.width = players.player1.getHealth() + '%';
-  player2HealthBar.style.width = players.player2.getHealth() + '%';
+  // Update health bars immediately after the game is reset
+  updateHealthBars(player1.getHealth(), player2.getHealth());
 });
-
-
-
