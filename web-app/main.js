@@ -1,26 +1,28 @@
 import Game from "./game.js";
+import Stats from "./stats.js";
 
 // Initialize a new game and get references to the player objects
 let gameInstance = Game.createGame();
 
-let player1HealthBar = document.getElementById('player1Health');
-let player2HealthBar = document.getElementById('player2Health');
+let player1HealthBar = document.getElementById("player1Health");
+let player2HealthBar = document.getElementById("player2Health");
 
 function handleAction(action) {
   const healths = gameInstance.chooseAction(action);
 
   if (healths) {
-    player1HealthBar.style.width = healths.player1Health + '%';
-    player2HealthBar.style.width = healths.player2Health + '%';
+    player1HealthBar.style.width = healths.player1Health + "%";
+    player2HealthBar.style.width = healths.player2Health + "%";
   }
 
   // Update the game status
   let players = gameInstance.getPlayers();
 
-  if (Game.isWinningForPlayer(players.player1)) {
-    console.log(players.player2.getName() + ' has won the game!');
-  } else if (Game.isWinningForPlayer(players.player2)) {
-    console.log(players.player1.getName() + ' has won the game!');
+  // If the game has ended, record the result
+  let score;
+  if (Game.is_ended(players.player1, players.player2)) {
+    let winner = Game.getWinner(players.player1, players.player2);
+    score = Stats.record_game("player1", "player2", winner);
   }
 
   // Update the HP text
@@ -52,7 +54,16 @@ function handleAction(action) {
     document.getElementById("player2_info").textContent =
     "Player2 is evading";
   }
+  // Update the turn display
+  if (gameInstance.getCurrentPlayer() === "player1") {
+    document.getElementById("player1_ready").textContent = "Your turn!";
+    document.getElementById("player2_ready").textContent = "Wait your turn...";
+  } else {
+    document.getElementById("player1_ready").textContent = "Wait your turn...";
+    document.getElementById("player2_ready").textContent = "Your turn!";
+  }
 }
+
 
 
 document.getElementById("player1_attackButton").addEventListener("click",

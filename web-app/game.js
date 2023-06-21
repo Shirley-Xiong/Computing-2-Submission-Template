@@ -129,6 +129,10 @@ Game.createGame = function () {
     }
   };
 
+  const getCurrentPlayer = function() {
+    return currentPlayer === player1 ? "player1" : "player2";
+  }
+
  //Determines and executes actions chosen by players.
   const handleActions= function() {
     if (action1 === 'defend') {
@@ -181,7 +185,8 @@ Game.createGame = function () {
   return {
     chooseAction: chooseAction,
     handleActions: handleActions,
-    getPlayers: () => ({ player1, player2 })
+    getPlayers: () => ({ player1, player2 }),
+    getCurrentPlayer: getCurrentPlayer
   };
 };
 Game.createGame();
@@ -194,8 +199,17 @@ Game.createGame();
  * @param {Object} player The player object.
  * @returns {boolean} Whether the player has lost.
  */
-Game.isWinningForPlayer = function (player) {
+const isLosingForPlayer = function (player) {
     return player.getHealth() <= 0;
+};
+
+Game.getWinner = function(player1, player2) {
+    if(isLosingForPlayer(player1)) {
+        return player2.getName();
+    } else if(isLosingForPlayer(player2)) {
+        return player1.getName();
+    }
+    return null;
 };
 
 /**
@@ -209,8 +223,8 @@ Game.isWinningForPlayer = function (player) {
  */
 Game.is_ended = function (player1, player2) {
     return (
-        Game.isWinningForPlayer(player1) ||
-        Game.isWinningForPlayer(player2)
+        isLosingForPlayer(player1) ||
+        isLosingForPlayer(player2)
     );
 };
 
