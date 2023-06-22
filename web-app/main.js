@@ -18,7 +18,8 @@ function updateHealthBars(player1Health, player2Health) {
 
 function updateScoresUI(score) {
   document.getElementById("score").innerText =
-    `${score[player1.getName()].player_1_wins}  : ${score[player2.getName()].player_2_wins}`;
+    `${score[player1.getName()].player_1_wins}  :
+     ${score[player2.getName()].player_2_wins}`;
 
   document.getElementById("player1_longest_streak").textContent =
      score[player1.getName()].longest_streak;

@@ -90,8 +90,8 @@ Game.createCharacter = function(name) {
     receiveDamage,
     getHealth: () => health,
     getName: () => name,
-    action,
-  };
+    action
+    };
 };
 
 /**
@@ -216,7 +216,7 @@ const isLosingForPlayer = function (player) {
 Game.getWinner = function(player1, player2) {
     if(isLosingForPlayer(player1)) {
         return player2.getName();
-    } else if(isLosingForPlayer(player2)) {
+    }else if(isLosingForPlayer(player2)) {
         return player1.getName();
     }
     return null;
